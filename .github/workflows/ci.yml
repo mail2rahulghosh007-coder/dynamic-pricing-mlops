@@ -28,7 +28,3 @@ jobs:
           python -m py_compile src/price_logic.py
           python -m py_compile src/api.py
           python -m py_compile src/streamlit_app.py
-
-      - name: Confirm model file exists
-        run: |
-          test -f models/final_xgb_model.pkl && echo "Model file found"

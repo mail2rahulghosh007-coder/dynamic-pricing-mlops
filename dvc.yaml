@@ -1,0 +1,27 @@
+stages:
+  clean_data:
+    cmd: python src/clean_data.py
+    deps:
+      - src/clean_data.py
+      - data/train.csv
+      - data/store.csv
+    outs:
+      - data/cleaned_merged.csv
+
+  feature_engineering:
+    cmd: python src/feature_engineering.py
+    deps:
+      - src/feature_engineering.py
+      - data/cleaned_merged.csv
+    outs:
+      - data/features_ready.csv
+
+  train_model:
+    cmd: python src/final_model.py
+    deps:
+      - src/final_model.py
+      - data/features_ready.csv
+      - models/best_params.json
+    outs:
+      - models/final_xgb_model.pkl
+      - models/feature_columns.json

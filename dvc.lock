@@ -1,0 +1,62 @@
+schema: '2.0'
+stages:
+  clean_data:
+    cmd: python src/clean_data.py
+    deps:
+    - path: data/store.csv
+      hash: md5
+      md5: 30c9ccb5af66c21f65e7d1da967e6251
+      size: 45010
+    - path: data/train.csv
+      hash: md5
+      md5: d47aedd9e2d580e06a6ef7ce1732e8b6
+      size: 38057952
+    - path: src/clean_data.py
+      hash: md5
+      md5: 6f7781de85b1792a03436c715e57537c
+      size: 1304
+    outs:
+    - path: data/cleaned_merged.csv
+      hash: md5
+      md5: ecd58f0fefe40b9bffb43c79481ce8b6
+      size: 67458339
+  feature_engineering:
+    cmd: python src/feature_engineering.py
+    deps:
+    - path: data/cleaned_merged.csv
+      hash: md5
+      md5: ecd58f0fefe40b9bffb43c79481ce8b6
+      size: 67458339
+    - path: src/feature_engineering.py
+      hash: md5
+      md5: d207fbaafcbaad6a7c93ae5a98bac810
+      size: 1306
+    outs:
+    - path: data/features_ready.csv
+      hash: md5
+      md5: 220353abc37dbba58518434bebb4643e
+      size: 58974519
+  train_model:
+    cmd: python src/final_model.py
+    deps:
+    - path: data/features_ready.csv
+      hash: md5
+      md5: 220353abc37dbba58518434bebb4643e
+      size: 58974519
+    - path: models/best_params.json
+      hash: md5
+      md5: c1020657f69edfe12a183eb9c7fa4777
+      size: 127
+    - path: src/final_model.py
+      hash: md5
+      md5: b4339d882c871e665d99945f2de7c668
+      size: 2072
+    outs:
+    - path: models/feature_columns.json
+      hash: md5
+      md5: 07bae69697f41ce5e3abe1321534f041
+      size: 497
+    - path: models/final_xgb_model.pkl
+      hash: md5
+      md5: d8d6fc5b40afc1f626e6208ac0b4f451
+      size: 13360383

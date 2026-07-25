@@ -1,0 +1,34 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Check code compiles (basic sanity check)
+        run: |
+          python -m py_compile src/price_logic.py
+          python -m py_compile src/api.py
+          python -m py_compile src/streamlit_app.py
+
+      - name: Confirm model file exists
+        run: |
+          test -f models/final_xgb_model.pkl && echo "Model file found"

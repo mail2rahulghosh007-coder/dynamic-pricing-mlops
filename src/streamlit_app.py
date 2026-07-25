@@ -1,5 +1,5 @@
 import streamlit as st
-import requests
+from src.price_logic import suggest_price
 
 st.set_page_config(page_title="Dynamic Pricing Predictor", page_icon="💰")
 
@@ -46,17 +46,15 @@ if st.button("Predict Price"):
         "CompetitionOpenSinceYear": 2008,
         "Promo2": 0,
         "Promo2SinceWeek": 0,
-        "Promo2SinceYear": 0,
-        "base_price": base_price
+        "Promo2SinceYear": 0
     }
 
     try:
-        response = requests.post("http://127.0.0.1:8000/predict", json=payload)
-        result = response.json()
+        result = suggest_price(payload, base_price=base_price)
 
         st.success("Prediction complete!")
         st.metric("Predicted Sales", f"₹{result['predicted_sales']}")
         st.metric("Demand Level", result['demand_level'])
         st.metric("Suggested Price", f"₹{result['suggested_price']}")
     except Exception as e:
-        st.error(f"Error: {e}. Make sure the FastAPI server is running (uvicorn src.api:app --reload)")
+        st.error(f"Error: {e}")

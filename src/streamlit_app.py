@@ -1,5 +1,5 @@
 import streamlit as st
-from src.price_logic import suggest_price
+from price_logic import suggest_price
 
 st.set_page_config(page_title="Dynamic Pricing Predictor", page_icon="💰")
 

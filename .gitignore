@@ -1,0 +1,7 @@
+venv/
+__pycache__/
+*.pyc
+mlflow.db
+mlruns/
+data/cleaned_merged.csv
+data/features_ready.csv
